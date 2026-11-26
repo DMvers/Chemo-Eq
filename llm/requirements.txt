@@ -1,0 +1,5 @@
+# Versions the paper's searches ran with. ~= allows bug-fix releases only.
+numpy~=2.5.3
+scipy~=1.18.1
+pandas~=3.0.5
+# LLM server (GPU machine only, separate environment): vllm==0.31.0, see scripts/install.sh

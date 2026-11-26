@@ -1,0 +1,6 @@
+cellpose==4.1.1
+ultrack==0.6.3
+tifffile
+pandas==2.3.3
+numpy==2.2.6
+scikit-image==0.25.2

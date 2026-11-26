@@ -1,0 +1,8 @@
+Cmin-10-Cmax-10nM/08_12_2025_e3/Pos1
+Cmin-10-Cmax-10nM/08_12_2025_e3/Pos2
+Cmin-10-Cmax-10nM/08_12_2025_e3/Pos3
+Cmin-10-Cmax-10nM/08_12_2025_e3/Pos4
+Cmin-1mM-Cmax-1mM/08_12_2025_e1/Pos1
+Cmin-1mM-Cmax-1mM/08_12_2025_e1/Pos2
+Cmin-1mM-Cmax-1mM/08_12_2025_e1/Pos3
+Cmin-1mM-Cmax-1mM/08_12_2025_e1/Pos4

@@ -1,0 +1,60 @@
+=== SYSTEM ===
+You propose compact, mechanistically interpretable mathematical models and write them as short vectorised NumPy functions. Reply with a one- or two-line idea, then exactly one ```python code block. No other text.
+
+=== TASK ===
+We are modelling how objects steer while moving towards an attractive source. There is a stable, linear, one-dimensional gradient along +x.
+
+Inputs (NumPy arrays of equal length; parameters p are fitted for you):
+  C : attractant concentration at the object's position
+  G : concentration gradient along +x (G = 0 in the no-gradient controls)
+  p : 1-D array of N_PARAMS free parameters
+Training ranges:
+{ranges}
+
+What the model must return:
+  For every segment of an object's track (2 minutes) we measure the efficiency E = distance moved along +x divided by the length of the path: -1 = straight down the gradient, +1 = straight up it, 0 = no net movement along x. Return {outputs}, an array (or scalar): the expected E of a segment, between -1 and 1 (values beyond +-0.995 are clipped to it).
+
+How models are scored:
+  Free parameters are fitted by maximum likelihood on training data: each segment's E is scored with the density on [-1, 1] that has the mean your model returns (the maximum-entropy one, proportional to exp(k * E)), so the fit matches the predicted mean E to the observed one.
+  The score is the mean log-likelihood on *held-out data*: for every condition, stretches of its concentration range that were left out of the fit, reported as bits per observation gained over an expected E of 0 everywhere, minus a small penalty for each parameter and each syntax-tree node (a function other than np.exp and np.log counts as the nodes it takes to write it with them and arithmetic: np.tanh(x) as 1 - 2/(1 + np.exp(2*x))). A model that only fits the training data will score poorly; the goal is a law that generalises across concentrations and gradients.
+
+Rules:
+  - Define N_PARAMS (int, at most {max_params}) and PARAM_INIT, a list of rough starting fitting values. Use p[i] for every constant you would want fitted.
+  - Use only numpy (as np) and math, through plain functions such as np.exp, np.log, np.maximum (no np.random or other submodules). Fully vectorised, no loops over observations.
+  - It must return finite values for every input in the stated ranges, including 0.
+  - Signature exactly: def {signature}:
+  - You may transform the inputs in any way you can justify.
+
+=== PREVIOUS MODEL ===
+### Previous model {rank} (held-out score {score:.4f} bits; train gain {train_gain:.4f}; params {n_params}; nodes {complexity})
+```python
+{code}
+```
+Fitted parameters: {params}
+
+=== FEEDBACK ===
+Check of the best model above on the *training* data, each gradient condition in concentration bins (mean {observable} observed vs predicted{sign_note}):
+{table}
+
+=== ASK ===
+Propose ONE new model that you expect to score higher than all of the above. Prefer changing the functional form or the mechanism over re-tuning constants, and keep it as simple as the data allow. One- or two-line idea, then the code.
+
+=== SEED ===
+N_PARAMS = 1
+PARAM_INIT = [10.0]
+
+def model(C, G, p):
+    e = p[0] * np.where(G > 0, G / np.maximum(C, 1e-12), 0.0)
+    return e
+
+=== OUTPUT NAME ===
+e
+
+=== OBSERVABLE ===
+E
+
+=== SIGN NOTE ===
+; positive = net movement towards +x
+
+=== MAX PARAMS ===
+8
